@@ -17,6 +17,8 @@ ELIXIR_VERSION = "1.19.1"
 ERLANG_VERSION = "28.1.1"
 GO_VERSION = "1.24.6"
 ELIXIR_PROTOBUF_VERSION = "0.15.0"
+GOOGLE_PROTOS_DIR = "googlepais"
+PROTOCOLBUFFERS_PROTOS_DIR = "protocolbuffers_protos"
 
 [tasks."install:elixir"]
 run="""
