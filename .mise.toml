@@ -19,9 +19,8 @@ GO_VERSION = "1.24.6"
 ELIXIR_PROTOBUF_VERSION = "0.15.0"
 GOOGLE_PROTOS_DIR = "googlepais"
 PROTOCOLBUFFERS_PROTOS_DIR = "protocolbuffers_protos"
-
 [tasks."install:elixir"]
-run="""
+run = """
 #!/usr/bin/env nu
 
 if ((which protoc-gen-elixir) | is-empty) {
@@ -33,3 +32,10 @@ if ($env.ELIXIR_PROTOBUF_VERSION != $"(protoc-gen-elixir --version)") {
   mix escript.install hex protobuf $env.ELIXIR_PROTOBUF_VERSION --force
 }
 """
+
+[tasks."gen:elixir"]
+description = "Generate all protobuf files"
+run = [{ tasks = ["gen:elixir-google", "gen:elixir-base"] }, """
+#!/user/bin/env nu
+rm -rf packages/google
+"""]

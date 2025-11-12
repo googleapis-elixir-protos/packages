@@ -1,10 +1,3 @@
-export def app-template-string [package] {
-let module = $package | str camel-case | str capitalize
-$'defmodule ($module) do
-end
-'
-}
-
 export def mix-template-string [package version] {
 let module = $package | str camel-case | str capitalize
 let app = $package | str snake-case
