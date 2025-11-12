@@ -13,18 +13,26 @@ protoc --elixir_out=plugins=grpc:./packages -I $env.GOOGLE_PROTOS_DIR ...$proto_
 
 glob --depth 1 --no-file ./packages/google/* | compact | each {|package|
   let name = $package | path basename
-  let elixir_filename = $'./packages/elixir/($name)/lib/($name).ex'
-  let mix_filename = $'./packages/elixir/($name)/mix.exs'
 
-  mkdir ($elixir_filename | path dirname)
-  mimic mix-template-string $name $env.ELIXIR_VERSION | save --force $mix_filename
+  mkdir $'./packages/elixir/($name)'
 
-  rm --force $elixir_filename
+  glob $'($package)/**/*.pb.ex' | each {|proto| 
+    mv $proto $'./packages/elixir/($name)/'
+  }
 
-
-  glob $'($package)/**/*.pb.ex' | each {|proto| $proto | open | save --append $elixir_filename }
+  # let name = $package | path basename
+  # let elixir_filename = $'./packages/elixir/($name)/lib/($name).ex'
+  # let mix_filename = $'./packages/elixir/($name)/mix.exs'
+  #
+  # mkdir ($elixir_filename | path dirname)
+  # mimic mix-template-string $name $env.ELIXIR_VERSION | save --force $mix_filename
+  #
+  # rm --force $elixir_filename
+  #
+  #
+  # glob $'($package)/**/*.pb.ex' | each {|proto| $proto | open | save --append $elixir_filename }
 }
 
-rm -rf packages/google
-
-mix format
+# rm -rf packages/google
+#
+# mix format
