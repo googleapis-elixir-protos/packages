@@ -7,9 +7,11 @@ $'defmodule ($module).MixProject do
   def project do
    [
      app: :($app),
-     version: "0.1.0",
-     elixir: "~> ($version)",
-     deps: [ {:protobuf, "~> 0.15"} ]
+     version: "1.0.0",
+     elixir: "~> 1.0",
+     deps: [
+      {:protobuf, "~> ($env.ELIXIR_PROTOBUF_VERSION)"}
+     ]
    ]
   end
 end
