@@ -1,3 +1,5 @@
 .expert
 googlepais
 protocolbuffers_protos
+_build
+deps
