@@ -5,34 +5,24 @@
 
 use ../mimic.nu
 
-mkdir packages/elixir
+mkdir packages
 
 let proto_files = glob $'($env.GOOGLE_PROTOS_DIR)/google/**/*.proto' | path relative-to (pwd)
 
-protoc --elixir_out=plugins=grpc:./packages -I $env.GOOGLE_PROTOS_DIR ...$proto_files
+protoc --elixir_out=plugins=grpc:. -I $env.GOOGLE_PROTOS_DIR ...$proto_files
 
-glob --depth 1 --no-file ./packages/google/* | compact | each {|package|
+glob --depth 1 --no-file ./google/* | compact | each {|package|
   let name = $package | path basename
+  let mix_filename = $'./($name)/mix.exs'
+  let lib_dir = [$name "lib"] | path join 
 
-  mkdir $'./packages/elixir/($name)'
+  rm -rf $lib_dir
+  mkdir $lib_dir
+  mv $package $lib_dir
 
-  glob $'($package)/**/*.pb.ex' | each {|proto| 
-    mv $proto $'./packages/elixir/($name)/'
-  }
+  mimic mix-template-string $'google_($name)' $env.ELIXIR_VERSION | save --force $mix_filename
 
-  # let name = $package | path basename
-  # let elixir_filename = $'./packages/elixir/($name)/lib/($name).ex'
-  # let mix_filename = $'./packages/elixir/($name)/mix.exs'
-  #
-  # mkdir ($elixir_filename | path dirname)
-  # mimic mix-template-string $name $env.ELIXIR_VERSION | save --force $mix_filename
-  #
-  # rm --force $elixir_filename
-  #
-  #
-  # glob $'($package)/**/*.pb.ex' | each {|proto| $proto | open | save --append $elixir_filename }
+  $package
 }
 
-# rm -rf packages/google
-#
-# mix format
+rm -rt google
