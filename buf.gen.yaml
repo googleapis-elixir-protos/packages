@@ -1,0 +1,12 @@
+version: v2
+managed:
+  enabled: true
+plugins:
+  - local: ["protoc-gen-elixir"]
+    out: .
+    include_imports: true
+    opt:
+      - paths=source_relative
+      - plugins=grpc
+inputs:
+  - git_repo: "https://github.com/googleapis/googleapis.git"

@@ -1,0 +1,9 @@
+defmodule Google.Cloud.Aiplatform.V1beta1.Schema.AnnotationSpecColor do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :color, 1, type: Google.Type.Color
+  field :display_name, 2, type: :string, json_name: "displayName"
+  field :id, 3, type: :string
+end
