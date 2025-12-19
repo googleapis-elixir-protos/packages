@@ -16,8 +16,16 @@ glob "google/*" | each {|filepath|
     package_version: 0.1.0
   }
 
+  mkdir -v $libdir
+  glob --exclude ["lib"] $"($filepath)/*" | each {|packagepath|
+    mv $packagepath $libdir
+  }
+
   let mixfile = (template mix $options)
   $mixfile | save --force $mix_file_name
+
+
+
 }
 
 glob "google/*" | each {|package| 
