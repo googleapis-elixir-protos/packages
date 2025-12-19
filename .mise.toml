@@ -28,5 +28,5 @@ run = [
 #! /usr/bin/env nu
 buf generate
 """,
-{task = "gen:pacakges"}
+{task = "gen:packages"}
 ]

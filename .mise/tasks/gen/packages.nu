@@ -9,7 +9,6 @@ glob "google/*" | each {|filepath|
   let $libdir = [$filepath lib] | path join
   let $mix_file_name = [$filepath mix.exs] | path join
   let $package_name = $filepath | path basename
-
   let options = {
     package_name: $package_name,
     elixir_version: $env.ELIXIR_VERSION,
@@ -18,7 +17,11 @@ glob "google/*" | each {|filepath|
   }
 
   let mixfile = (template mix $options)
-  print $mixfile
-
   $mixfile | save --force $mix_file_name
 }
+
+glob "google/*" | each {|package| 
+  mv $package ([$env.MISE_PROJECT_ROOT, $'google_($package | path basename)'] | path join) | print
+}
+
+rm -rf google grafeas gapic
