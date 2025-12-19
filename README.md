@@ -11,9 +11,21 @@ These packages are only in Github where we can "sparse" clone the pieces we want
 ```elixir
 def deps do
   [
-    {:google_pubsub, github: "googleapis-elixir-protos/packages" depth: 1, sparse: "pubsub" },
-    {:google_maps, github: "googleapis-elixir-protos/packages" depth: 1, sparse: "maps" },
-    {:google_spanner, github: "googleapis-elixir-protos/packages" depth: 1, sparse: "spanner" },
+    {:google_pubsub, 
+        github: "googleapis-elixir-protos/packages" 
+        depth: 1, 
+        sparse: "google_pubsub" 
+    },
+    {:google_maps, 
+        github: "googleapis-elixir-protos/packages" 
+        depth: 1, 
+        sparse: "google_maps" 
+    },
+    {:google_spanner, 
+        github: "googleapis-elixir-protos/packages" 
+        depth: 1, 
+        sparse: "google_spanner" 
+    },
   ]
 end
 ```
