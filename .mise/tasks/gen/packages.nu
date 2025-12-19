@@ -17,15 +17,8 @@ glob "google/*" | each {|filepath|
     package_version: 0.1.0
   }
 
-
   let mixfile = (template mix $options)
   print $mixfile
 
   $mixfile | save --force $mix_file_name
-
-  # mkdir -v $libdir
-  #
-  # glob --exclude ["lib"] $"($filepath)/*" | each {|packagepath|
-  #   mv $packagepath $libdir
-  # }
 }

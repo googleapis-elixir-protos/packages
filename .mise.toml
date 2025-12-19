@@ -23,8 +23,10 @@ ELIXIR_PROTOBUF_VERSION = "0.15.0"
 
 [tasks.gen]
 depends = ["install:elixir-proto-plugin"] 
-run = """
-#! /usr/bin/env nu
-
-buf generate
+run = [
 """
+#! /usr/bin/env nu
+buf generate
+""",
+{task = "gen:pacakges"}
+]
