@@ -3,8 +3,8 @@ defmodule Google.Cloud.Sql.V1.SqlOperationsGetRequest do
 
   use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
 
-  field :operation, 1, type: :string
-  field :project, 2, type: :string
+  field :operation, 1, type: :string, deprecated: false
+  field :project, 2, type: :string, deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.SqlOperationsListRequest do

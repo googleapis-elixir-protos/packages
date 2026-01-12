@@ -35563,6 +35563,12 @@ defmodule Google.Cloud.Compute.V1.StoragePool do
     json_name: "creationTimestamp"
 
   field :description, 422_937_596, proto3_optional: true, type: :string
+
+  field :exapool_provisioned_capacity_gb, 345_174_240,
+    proto3_optional: true,
+    type: Google.Cloud.Compute.V1.StoragePoolExapoolProvisionedCapacityGb,
+    json_name: "exapoolProvisionedCapacityGb"
+
   field :id, 3355, proto3_optional: true, type: :uint64
   field :kind, 3_292_052, proto3_optional: true, type: :string
 
@@ -35697,6 +35703,27 @@ defmodule Google.Cloud.Compute.V1.StoragePoolDisk do
   field :used_bytes, 231_640_425, proto3_optional: true, type: :int64, json_name: "usedBytes"
 end
 
+defmodule Google.Cloud.Compute.V1.StoragePoolExapoolProvisionedCapacityGb do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :capacity_optimized, 251_131_874,
+    proto3_optional: true,
+    type: :int64,
+    json_name: "capacityOptimized"
+
+  field :read_optimized, 389_863_870,
+    proto3_optional: true,
+    type: :int64,
+    json_name: "readOptimized"
+
+  field :write_optimized, 492_523_719,
+    proto3_optional: true,
+    type: :int64,
+    json_name: "writeOptimized"
+end
+
 defmodule Google.Cloud.Compute.V1.StoragePoolList do
   @moduledoc false
 
@@ -35743,6 +35770,26 @@ defmodule Google.Cloud.Compute.V1.StoragePoolResourceStatus do
   use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
 
   field :disk_count, 182_933_485, proto3_optional: true, type: :int64, json_name: "diskCount"
+
+  field :exapool_max_read_iops, 59_241_794,
+    proto3_optional: true,
+    type: :int64,
+    json_name: "exapoolMaxReadIops"
+
+  field :exapool_max_read_throughput, 390_933_251,
+    proto3_optional: true,
+    type: :int64,
+    json_name: "exapoolMaxReadThroughput"
+
+  field :exapool_max_write_iops, 293_212_537,
+    proto3_optional: true,
+    type: :int64,
+    json_name: "exapoolMaxWriteIops"
+
+  field :exapool_max_write_throughput, 330_367_482,
+    proto3_optional: true,
+    type: :int64,
+    json_name: "exapoolMaxWriteThroughput"
 
   field :last_resize_timestamp, 500_825_556,
     proto3_optional: true,

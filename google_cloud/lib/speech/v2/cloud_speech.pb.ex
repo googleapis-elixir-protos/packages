@@ -337,6 +337,14 @@ defmodule Google.Cloud.Speech.V2.SpeakerDiarizationConfig do
   field :max_speaker_count, 3, type: :int32, json_name: "maxSpeakerCount", deprecated: false
 end
 
+defmodule Google.Cloud.Speech.V2.CustomPromptConfig do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :custom_prompt, 1, type: :string, json_name: "customPrompt", deprecated: false
+end
+
 defmodule Google.Cloud.Speech.V2.RecognitionFeatures do
   @moduledoc false
 
@@ -359,6 +367,11 @@ defmodule Google.Cloud.Speech.V2.RecognitionFeatures do
     json_name: "diarizationConfig"
 
   field :max_alternatives, 16, type: :int32, json_name: "maxAlternatives"
+
+  field :custom_prompt_config, 18,
+    type: Google.Cloud.Speech.V2.CustomPromptConfig,
+    json_name: "customPromptConfig",
+    deprecated: false
 end
 
 defmodule Google.Cloud.Speech.V2.TranscriptNormalization.Entry do
@@ -495,6 +508,8 @@ defmodule Google.Cloud.Speech.V2.RecognitionResponseMetadata do
   field :total_billed_duration, 6,
     type: Google.Protobuf.Duration,
     json_name: "totalBilledDuration"
+
+  field :prompt, 10, proto3_optional: true, type: :string, deprecated: false
 end
 
 defmodule Google.Cloud.Speech.V2.SpeechRecognitionAlternative do

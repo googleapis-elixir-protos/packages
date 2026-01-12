@@ -1,8 +1,6 @@
 #!/usr/bin/env nu
 
 #MISE description="Add hex package info to each google proto project"
-pwd | print
-
 use ../../../.mise/template.nu
 
 glob "google/*" | each {|filepath|
@@ -13,19 +11,17 @@ glob "google/*" | each {|filepath|
     package_name: $package_name,
     elixir_version: $env.ELIXIR_VERSION,
     protobuf_version: $env.ELIXIR_PROTOBUF_VERSION,
+    grpc_version: "0.11.0",
     package_version: 0.1.0
   }
 
   mkdir -v $libdir
   glob --exclude ["lib"] $"($filepath)/*" | each {|packagepath|
-    mv $packagepath $libdir
+    mv -f $packagepath $libdir
   }
 
   let mixfile = (template mix $options)
   $mixfile | save --force $mix_file_name
-
-
-
 }
 
 glob "google/*" | each {|package| 

@@ -95,6 +95,12 @@ defmodule Google.Cloud.Sql.V1.BackupRun do
   field :self_link, 12, type: :string, json_name: "selfLink"
   field :location, 13, type: :string
 
+  field :database_version, 15,
+    type: Google.Cloud.Sql.V1.SqlDatabaseVersion,
+    json_name: "databaseVersion",
+    enum: true,
+    deprecated: false
+
   field :disk_encryption_configuration, 16,
     type: Google.Cloud.Sql.V1.DiskEncryptionConfiguration,
     json_name: "diskEncryptionConfiguration"

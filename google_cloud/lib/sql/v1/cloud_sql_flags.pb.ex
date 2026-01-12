@@ -13,12 +13,29 @@ defmodule Google.Cloud.Sql.V1.SqlFlagType do
   field :REPEATED_STRING, 7
 end
 
+defmodule Google.Cloud.Sql.V1.SqlFlagScope do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :SQL_FLAG_SCOPE_UNSPECIFIED, 0
+  field :SQL_FLAG_SCOPE_DATABASE, 1
+  field :SQL_FLAG_SCOPE_CONNECTION_POOL, 2
+end
+
 defmodule Google.Cloud.Sql.V1.SqlFlagsListRequest do
   @moduledoc false
 
   use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
 
   field :database_version, 1, type: :string, json_name: "databaseVersion"
+
+  field :flag_scope, 3,
+    proto3_optional: true,
+    type: Google.Cloud.Sql.V1.SqlFlagScope,
+    json_name: "flagScope",
+    enum: true,
+    deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.FlagsListResponse do
@@ -34,6 +51,8 @@ defmodule Google.Cloud.Sql.V1.Flag do
   @moduledoc false
 
   use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  oneof :recommended_value, 0
 
   field :name, 1, type: :string
   field :type, 2, type: Google.Cloud.Sql.V1.SqlFlagType, enum: true
@@ -51,6 +70,21 @@ defmodule Google.Cloud.Sql.V1.Flag do
   field :kind, 8, type: :string
   field :in_beta, 9, type: Google.Protobuf.BoolValue, json_name: "inBeta"
   field :allowed_int_values, 10, repeated: true, type: :int64, json_name: "allowedIntValues"
+
+  field :flag_scope, 15,
+    type: Google.Cloud.Sql.V1.SqlFlagScope,
+    json_name: "flagScope",
+    enum: true
+
+  field :recommended_string_value, 16,
+    type: :string,
+    json_name: "recommendedStringValue",
+    oneof: 0
+
+  field :recommended_int_value, 17,
+    type: Google.Protobuf.Int64Value,
+    json_name: "recommendedIntValue",
+    oneof: 0
 end
 
 defmodule Google.Cloud.Sql.V1.SqlFlagsService.Service do

@@ -145,6 +145,28 @@ defmodule Google.Spanner.V1.DeleteSessionRequest do
   field :name, 1, type: :string, deprecated: false
 end
 
+defmodule Google.Spanner.V1.RequestOptions.ClientContext.SecureContextEntry do
+  @moduledoc false
+
+  use Protobuf, map: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :key, 1, type: :string
+  field :value, 2, type: Google.Protobuf.Value
+end
+
+defmodule Google.Spanner.V1.RequestOptions.ClientContext do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :secure_context, 1,
+    repeated: true,
+    type: Google.Spanner.V1.RequestOptions.ClientContext.SecureContextEntry,
+    json_name: "secureContext",
+    map: true,
+    deprecated: false
+end
+
 defmodule Google.Spanner.V1.RequestOptions do
   @moduledoc false
 
@@ -153,6 +175,11 @@ defmodule Google.Spanner.V1.RequestOptions do
   field :priority, 1, type: Google.Spanner.V1.RequestOptions.Priority, enum: true
   field :request_tag, 2, type: :string, json_name: "requestTag"
   field :transaction_tag, 3, type: :string, json_name: "transactionTag"
+
+  field :client_context, 4,
+    type: Google.Spanner.V1.RequestOptions.ClientContext,
+    json_name: "clientContext",
+    deprecated: false
 end
 
 defmodule Google.Spanner.V1.DirectedReadOptions.ReplicaSelection do

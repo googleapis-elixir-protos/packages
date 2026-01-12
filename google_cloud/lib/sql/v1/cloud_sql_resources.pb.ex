@@ -7,6 +7,7 @@ defmodule Google.Cloud.Sql.V1.SqlFileType do
   field :SQL, 1
   field :CSV, 2
   field :BAK, 4
+  field :TDE, 8
 end
 
 defmodule Google.Cloud.Sql.V1.BakType do
@@ -18,6 +19,18 @@ defmodule Google.Cloud.Sql.V1.BakType do
   field :FULL, 1
   field :DIFF, 2
   field :TLOG, 3
+end
+
+defmodule Google.Cloud.Sql.V1.SqlMaintenanceType do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :SQL_MAINTENANCE_TYPE_UNSPECIFIED, 0
+  field :INSTANCE_MAINTENANCE, 1
+  field :REPLICA_INCLUDED_MAINTENANCE, 2
+  field :INSTANCE_SELF_SERVICE_MAINTENANCE, 3
+  field :REPLICA_INCLUDED_SELF_SERVICE_MAINTENANCE, 4
 end
 
 defmodule Google.Cloud.Sql.V1.SqlBackendType do
@@ -53,20 +66,6 @@ defmodule Google.Cloud.Sql.V1.SqlDatabaseVersion do
   field :MYSQL_5_5, 3
   field :MYSQL_5_6, 5
   field :MYSQL_5_7, 6
-  field :SQLSERVER_2017_STANDARD, 11
-  field :SQLSERVER_2017_ENTERPRISE, 14
-  field :SQLSERVER_2017_EXPRESS, 15
-  field :SQLSERVER_2017_WEB, 16
-  field :POSTGRES_9_6, 9
-  field :POSTGRES_10, 18
-  field :POSTGRES_11, 10
-  field :POSTGRES_12, 19
-  field :POSTGRES_13, 23
-  field :POSTGRES_14, 110
-  field :POSTGRES_15, 172
-  field :POSTGRES_16, 272
-  field :POSTGRES_17, 408
-  field :POSTGRES_18, 557
   field :MYSQL_8_0, 20
   field :MYSQL_8_0_18, 41
   field :MYSQL_8_0_26, 85
@@ -81,11 +80,29 @@ defmodule Google.Cloud.Sql.V1.SqlDatabaseVersion do
   field :MYSQL_8_0_35, 240
   field :MYSQL_8_0_36, 241
   field :MYSQL_8_0_37, 355
-  field :MYSQL_8_0_38, 356
   field :MYSQL_8_0_39, 357
   field :MYSQL_8_0_40, 358
+  field :MYSQL_8_0_41, 488
+  field :MYSQL_8_0_42, 489
+  field :MYSQL_8_0_43, 553
+  field :MYSQL_8_0_44, 554
+  field :MYSQL_8_0_45, 555
+  field :MYSQL_8_0_46, 556
   field :MYSQL_8_4, 398
-  field :MYSQL_8_4_0, 399
+  field :SQLSERVER_2017_STANDARD, 11
+  field :SQLSERVER_2017_ENTERPRISE, 14
+  field :SQLSERVER_2017_EXPRESS, 15
+  field :SQLSERVER_2017_WEB, 16
+  field :POSTGRES_9_6, 9
+  field :POSTGRES_10, 18
+  field :POSTGRES_11, 10
+  field :POSTGRES_12, 19
+  field :POSTGRES_13, 23
+  field :POSTGRES_14, 110
+  field :POSTGRES_15, 172
+  field :POSTGRES_16, 272
+  field :POSTGRES_17, 408
+  field :POSTGRES_18, 557
   field :SQLSERVER_2019_STANDARD, 26
   field :SQLSERVER_2019_ENTERPRISE, 27
   field :SQLSERVER_2019_EXPRESS, 28
@@ -125,6 +142,7 @@ defmodule Google.Cloud.Sql.V1.SqlDataDiskType do
   field :PD_SSD, 1
   field :PD_HDD, 2
   field :OBSOLETE_LOCAL_SSD, 3
+  field :HYPERDISK_BALANCED, 4
 end
 
 defmodule Google.Cloud.Sql.V1.SqlAvailabilityType do
@@ -181,6 +199,28 @@ defmodule Google.Cloud.Sql.V1.BackupConfiguration.TransactionalLogStorageState d
   field :CLOUD_STORAGE, 4
 end
 
+defmodule Google.Cloud.Sql.V1.BackupConfiguration.BackupTier do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :BACKUP_TIER_UNSPECIFIED, 0
+  field :STANDARD, 1
+  field :ADVANCED, 2
+  field :ENHANCED, 3
+end
+
+defmodule Google.Cloud.Sql.V1.PreCheckResponse.MessageType do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :MESSAGE_TYPE_UNSPECIFIED, 0
+  field :INFO, 1
+  field :WARNING, 2
+  field :ERROR, 3
+end
+
 defmodule Google.Cloud.Sql.V1.IpConfiguration.SslMode do
   @moduledoc false
 
@@ -200,6 +240,17 @@ defmodule Google.Cloud.Sql.V1.IpConfiguration.CaMode do
   field :CA_MODE_UNSPECIFIED, 0
   field :GOOGLE_MANAGED_INTERNAL_CA, 1
   field :GOOGLE_MANAGED_CAS_CA, 2
+  field :CUSTOMER_MANAGED_CAS_CA, 3
+end
+
+defmodule Google.Cloud.Sql.V1.IpConfiguration.ServerCertificateRotationMode do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :SERVER_CERTIFICATE_ROTATION_MODE_UNSPECIFIED, 0
+  field :NO_AUTOMATIC_ROTATION, 1
+  field :AUTOMATIC_ROTATION_DURING_MAINTENANCE, 2
 end
 
 defmodule Google.Cloud.Sql.V1.Operation.SqlOperationType do
@@ -246,6 +297,7 @@ defmodule Google.Cloud.Sql.V1.Operation.SqlOperationType do
   field :AUTO_RESTART, 37
   field :REENCRYPT, 38
   field :SWITCHOVER, 39
+  field :UPDATE_BACKUP, 40
   field :ACQUIRE_SSRS_LEASE, 42
   field :RELEASE_SSRS_LEASE, 43
   field :RECONFIGURE_OLD_PRIMARY, 44
@@ -253,6 +305,11 @@ defmodule Google.Cloud.Sql.V1.Operation.SqlOperationType do
   field :SELF_SERVICE_MAINTENANCE, 46
   field :SWITCHOVER_TO_REPLICA, 47
   field :MAJOR_VERSION_UPGRADE, 48
+  field :ADVANCED_BACKUP, 49
+  field :MANAGE_BACKUP, 50
+  field :ENHANCED_BACKUP, 51
+  field :REPAIR_READ_POOL, 52
+  field :CREATE_READ_POOL, 53
 end
 
 defmodule Google.Cloud.Sql.V1.Operation.SqlOperationStatus do
@@ -304,6 +361,47 @@ defmodule Google.Cloud.Sql.V1.Settings.ConnectorEnforcement do
   field :CONNECTOR_ENFORCEMENT_UNSPECIFIED, 0
   field :NOT_REQUIRED, 1
   field :REQUIRED, 2
+end
+
+defmodule Google.Cloud.Sql.V1.Settings.DataApiAccess do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :DATA_API_ACCESS_UNSPECIFIED, 0
+  field :DISALLOW_DATA_API, 1
+  field :ALLOW_DATA_API, 2
+end
+
+defmodule Google.Cloud.Sql.V1.SqlActiveDirectoryConfig.ActiveDirectoryMode do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :ACTIVE_DIRECTORY_MODE_UNSPECIFIED, 0
+  field :MANAGED_ACTIVE_DIRECTORY, 1
+  field :SELF_MANAGED_ACTIVE_DIRECTORY, 2
+  field :CUSTOMER_MANAGED_ACTIVE_DIRECTORY, 3
+end
+
+defmodule Google.Cloud.Sql.V1.DnsNameMapping.ConnectionType do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :CONNECTION_TYPE_UNSPECIFIED, 0
+  field :PUBLIC, 1
+  field :PRIVATE_SERVICES_ACCESS, 2
+  field :PRIVATE_SERVICE_CONNECT, 3
+end
+
+defmodule Google.Cloud.Sql.V1.DnsNameMapping.DnsScope do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :DNS_SCOPE_UNSPECIFIED, 0
+  field :INSTANCE, 1
 end
 
 defmodule Google.Cloud.Sql.V1.AclEntry do
@@ -374,6 +472,13 @@ defmodule Google.Cloud.Sql.V1.BackupConfiguration do
     json_name: "transactionalLogStorageState",
     enum: true,
     deprecated: false
+
+  field :backup_tier, 11,
+    proto3_optional: true,
+    type: Google.Cloud.Sql.V1.BackupConfiguration.BackupTier,
+    json_name: "backupTier",
+    enum: true,
+    deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.PerformDiskShrinkContext do
@@ -384,6 +489,42 @@ defmodule Google.Cloud.Sql.V1.PerformDiskShrinkContext do
   field :target_size_gb, 1, type: :int64, json_name: "targetSizeGb"
 end
 
+defmodule Google.Cloud.Sql.V1.PreCheckResponse do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :message, 2, proto3_optional: true, type: :string
+
+  field :message_type, 3,
+    proto3_optional: true,
+    type: Google.Cloud.Sql.V1.PreCheckResponse.MessageType,
+    json_name: "messageType",
+    enum: true
+
+  field :actions_required, 4, repeated: true, type: :string, json_name: "actionsRequired"
+end
+
+defmodule Google.Cloud.Sql.V1.PreCheckMajorVersionUpgradeContext do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :target_database_version, 1,
+    type: Google.Cloud.Sql.V1.SqlDatabaseVersion,
+    json_name: "targetDatabaseVersion",
+    enum: true,
+    deprecated: false
+
+  field :pre_check_response, 2,
+    repeated: true,
+    type: Google.Cloud.Sql.V1.PreCheckResponse,
+    json_name: "preCheckResponse",
+    deprecated: false
+
+  field :kind, 3, type: :string, deprecated: false
+end
+
 defmodule Google.Cloud.Sql.V1.BackupContext do
   @moduledoc false
 
@@ -391,6 +532,7 @@ defmodule Google.Cloud.Sql.V1.BackupContext do
 
   field :backup_id, 1, type: :int64, json_name: "backupId"
   field :kind, 2, type: :string
+  field :name, 3, type: :string
 end
 
 defmodule Google.Cloud.Sql.V1.Database do
@@ -548,6 +690,32 @@ defmodule Google.Cloud.Sql.V1.ExportContext.SqlBakExportOptions do
   field :bak_type, 4, type: Google.Cloud.Sql.V1.BakType, json_name: "bakType", enum: true
   field :copy_only, 5, type: Google.Protobuf.BoolValue, json_name: "copyOnly", deprecated: true
   field :differential_base, 6, type: Google.Protobuf.BoolValue, json_name: "differentialBase"
+
+  field :export_log_start_time, 7,
+    type: Google.Protobuf.Timestamp,
+    json_name: "exportLogStartTime",
+    deprecated: false
+
+  field :export_log_end_time, 8,
+    type: Google.Protobuf.Timestamp,
+    json_name: "exportLogEndTime",
+    deprecated: false
+end
+
+defmodule Google.Cloud.Sql.V1.ExportContext.SqlTdeExportOptions do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :certificate_path, 1, type: :string, json_name: "certificatePath", deprecated: false
+  field :private_key_path, 2, type: :string, json_name: "privateKeyPath", deprecated: false
+
+  field :private_key_password, 3,
+    type: :string,
+    json_name: "privateKeyPassword",
+    deprecated: false
+
+  field :name, 5, type: :string, deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.ExportContext do
@@ -573,6 +741,11 @@ defmodule Google.Cloud.Sql.V1.ExportContext do
   field :bak_export_options, 9,
     type: Google.Cloud.Sql.V1.ExportContext.SqlBakExportOptions,
     json_name: "bakExportOptions"
+
+  field :tde_export_options, 10,
+    type: Google.Cloud.Sql.V1.ExportContext.SqlTdeExportOptions,
+    json_name: "tdeExportOptions",
+    deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.ImportContext.SqlImportOptions.PostgresImportOptions do
@@ -619,6 +792,11 @@ defmodule Google.Cloud.Sql.V1.ImportContext.SqlBakImportOptions.EncryptionOption
   field :cert_path, 1, type: :string, json_name: "certPath"
   field :pvk_path, 2, type: :string, json_name: "pvkPath"
   field :pvk_password, 3, type: :string, json_name: "pvkPassword"
+
+  field :keep_encrypted, 5,
+    type: Google.Protobuf.BoolValue,
+    json_name: "keepEncrypted",
+    deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.ImportContext.SqlBakImportOptions do
@@ -636,6 +814,22 @@ defmodule Google.Cloud.Sql.V1.ImportContext.SqlBakImportOptions do
   field :bak_type, 6, type: Google.Cloud.Sql.V1.BakType, json_name: "bakType", enum: true
   field :stop_at, 7, type: Google.Protobuf.Timestamp, json_name: "stopAt", deprecated: false
   field :stop_at_mark, 8, type: :string, json_name: "stopAtMark", deprecated: false
+end
+
+defmodule Google.Cloud.Sql.V1.ImportContext.SqlTdeImportOptions do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :certificate_path, 1, type: :string, json_name: "certificatePath", deprecated: false
+  field :private_key_path, 2, type: :string, json_name: "privateKeyPath", deprecated: false
+
+  field :private_key_password, 3,
+    type: :string,
+    json_name: "privateKeyPassword",
+    deprecated: false
+
+  field :name, 5, type: :string, deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.ImportContext do
@@ -661,6 +855,11 @@ defmodule Google.Cloud.Sql.V1.ImportContext do
   field :sql_import_options, 8,
     type: Google.Cloud.Sql.V1.ImportContext.SqlImportOptions,
     json_name: "sqlImportOptions",
+    deprecated: false
+
+  field :tde_import_options, 9,
+    type: Google.Cloud.Sql.V1.ImportContext.SqlTdeImportOptions,
+    json_name: "tdeImportOptions",
     deprecated: false
 end
 
@@ -699,6 +898,25 @@ defmodule Google.Cloud.Sql.V1.IpConfiguration do
     type: Google.Cloud.Sql.V1.IpConfiguration.CaMode,
     json_name: "serverCaMode",
     enum: true
+
+  field :custom_subject_alternative_names, 11,
+    repeated: true,
+    type: :string,
+    json_name: "customSubjectAlternativeNames",
+    deprecated: false
+
+  field :server_ca_pool, 12,
+    proto3_optional: true,
+    type: :string,
+    json_name: "serverCaPool",
+    deprecated: false
+
+  field :server_certificate_rotation_mode, 16,
+    proto3_optional: true,
+    type: Google.Cloud.Sql.V1.IpConfiguration.ServerCertificateRotationMode,
+    json_name: "serverCertificateRotationMode",
+    enum: true,
+    deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.PscConfig do
@@ -713,6 +931,39 @@ defmodule Google.Cloud.Sql.V1.PscConfig do
     type: :string,
     json_name: "allowedConsumerProjects",
     deprecated: false
+
+  field :psc_auto_connections, 3,
+    repeated: true,
+    type: Google.Cloud.Sql.V1.PscAutoConnectionConfig,
+    json_name: "pscAutoConnections",
+    deprecated: false
+
+  field :network_attachment_uri, 4,
+    type: :string,
+    json_name: "networkAttachmentUri",
+    deprecated: false
+end
+
+defmodule Google.Cloud.Sql.V1.PscAutoConnectionConfig do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :consumer_project, 1, type: :string, json_name: "consumerProject", deprecated: false
+  field :consumer_network, 2, type: :string, json_name: "consumerNetwork", deprecated: false
+
+  field :ip_address, 3,
+    proto3_optional: true,
+    type: :string,
+    json_name: "ipAddress",
+    deprecated: false
+
+  field :status, 4, proto3_optional: true, type: :string
+
+  field :consumer_network_status, 5,
+    proto3_optional: true,
+    type: :string,
+    json_name: "consumerNetworkStatus"
 end
 
 defmodule Google.Cloud.Sql.V1.LocationPreference do
@@ -769,6 +1020,11 @@ defmodule Google.Cloud.Sql.V1.InsightsConfig do
   field :query_plans_per_minute, 5,
     type: Google.Protobuf.Int32Value,
     json_name: "queryPlansPerMinute"
+
+  field :enhanced_query_insights_enabled, 8,
+    type: Google.Protobuf.BoolValue,
+    json_name: "enhancedQueryInsightsEnabled",
+    deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.MySqlReplicaConfiguration do
@@ -828,6 +1084,20 @@ defmodule Google.Cloud.Sql.V1.IpMapping do
   field :time_to_retire, 3, type: Google.Protobuf.Timestamp, json_name: "timeToRetire"
 end
 
+defmodule Google.Cloud.Sql.V1.SqlSubOperationType do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  oneof :sub_operation_details, 0
+
+  field :maintenance_type, 1,
+    type: Google.Cloud.Sql.V1.SqlMaintenanceType,
+    json_name: "maintenanceType",
+    enum: true,
+    oneof: 0
+end
+
 defmodule Google.Cloud.Sql.V1.Operation do
   @moduledoc false
 
@@ -851,6 +1121,11 @@ defmodule Google.Cloud.Sql.V1.Operation do
   field :import_context, 10, type: Google.Cloud.Sql.V1.ImportContext, json_name: "importContext"
   field :export_context, 11, type: Google.Cloud.Sql.V1.ExportContext, json_name: "exportContext"
   field :backup_context, 17, type: Google.Cloud.Sql.V1.BackupContext, json_name: "backupContext"
+
+  field :pre_check_major_version_upgrade_context, 50,
+    type: Google.Cloud.Sql.V1.PreCheckMajorVersionUpgradeContext,
+    json_name: "preCheckMajorVersionUpgradeContext"
+
   field :name, 12, type: :string
   field :target_id, 13, type: :string, json_name: "targetId"
   field :self_link, 14, type: :string, json_name: "selfLink"
@@ -859,6 +1134,11 @@ defmodule Google.Cloud.Sql.V1.Operation do
   field :acquire_ssrs_lease_context, 20,
     type: Google.Cloud.Sql.V1.AcquireSsrsLeaseContext,
     json_name: "acquireSsrsLeaseContext"
+
+  field :sub_operation_type, 48,
+    type: Google.Cloud.Sql.V1.SqlSubOperationType,
+    json_name: "subOperationType",
+    deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.OperationError do
@@ -913,6 +1193,15 @@ defmodule Google.Cloud.Sql.V1.DataCacheConfig do
   use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
 
   field :data_cache_enabled, 1, type: :bool, json_name: "dataCacheEnabled"
+end
+
+defmodule Google.Cloud.Sql.V1.FinalBackupConfig do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :enabled, 1, proto3_optional: true, type: :bool
+  field :retention_days, 3, proto3_optional: true, type: :int32, json_name: "retentionDays"
 end
 
 defmodule Google.Cloud.Sql.V1.Settings.UserLabelsEntry do
@@ -1054,6 +1343,11 @@ defmodule Google.Cloud.Sql.V1.Settings do
     type: Google.Cloud.Sql.V1.DataCacheConfig,
     json_name: "dataCacheConfig"
 
+  field :replication_lag_max_seconds, 39,
+    type: Google.Protobuf.Int32Value,
+    json_name: "replicationLagMaxSeconds",
+    deprecated: false
+
   field :enable_google_ml_integration, 40,
     type: Google.Protobuf.BoolValue,
     json_name: "enableGoogleMlIntegration",
@@ -1064,11 +1358,168 @@ defmodule Google.Cloud.Sql.V1.Settings do
     json_name: "enableDataplexIntegration",
     deprecated: false
 
+  field :retain_backups_on_delete, 42,
+    type: Google.Protobuf.BoolValue,
+    json_name: "retainBackupsOnDelete",
+    deprecated: false
+
+  field :data_disk_provisioned_iops, 43,
+    proto3_optional: true,
+    type: :int64,
+    json_name: "dataDiskProvisionedIops",
+    deprecated: false
+
+  field :data_disk_provisioned_throughput, 44,
+    proto3_optional: true,
+    type: :int64,
+    json_name: "dataDiskProvisionedThroughput",
+    deprecated: false
+
+  field :connection_pool_config, 45,
+    proto3_optional: true,
+    type: Google.Cloud.Sql.V1.ConnectionPoolConfig,
+    json_name: "connectionPoolConfig",
+    deprecated: false
+
+  field :final_backup_config, 47,
+    proto3_optional: true,
+    type: Google.Cloud.Sql.V1.FinalBackupConfig,
+    json_name: "finalBackupConfig",
+    deprecated: false
+
+  field :read_pool_auto_scale_config, 48,
+    proto3_optional: true,
+    type: Google.Cloud.Sql.V1.ReadPoolAutoScaleConfig,
+    json_name: "readPoolAutoScaleConfig",
+    deprecated: false
+
   field :auto_upgrade_enabled, 50,
     proto3_optional: true,
     type: :bool,
     json_name: "autoUpgradeEnabled",
     deprecated: false
+
+  field :entraid_config, 52,
+    type: Google.Cloud.Sql.V1.SqlServerEntraIdConfig,
+    json_name: "entraidConfig",
+    deprecated: false
+
+  field :data_api_access, 53,
+    proto3_optional: true,
+    type: Google.Cloud.Sql.V1.Settings.DataApiAccess,
+    json_name: "dataApiAccess",
+    enum: true
+
+  field :performance_capture_config, 54,
+    type: Google.Cloud.Sql.V1.PerformanceCaptureConfig,
+    json_name: "performanceCaptureConfig",
+    deprecated: false
+end
+
+defmodule Google.Cloud.Sql.V1.PerformanceCaptureConfig do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :enabled, 1, proto3_optional: true, type: :bool, deprecated: false
+
+  field :probing_interval_seconds, 2,
+    proto3_optional: true,
+    type: :int32,
+    json_name: "probingIntervalSeconds",
+    deprecated: false
+
+  field :probe_threshold, 3,
+    proto3_optional: true,
+    type: :int32,
+    json_name: "probeThreshold",
+    deprecated: false
+
+  field :running_threads_threshold, 4,
+    proto3_optional: true,
+    type: :int32,
+    json_name: "runningThreadsThreshold",
+    deprecated: false
+
+  field :seconds_behind_source_threshold, 5,
+    proto3_optional: true,
+    type: :int32,
+    json_name: "secondsBehindSourceThreshold",
+    deprecated: false
+
+  field :transaction_duration_threshold, 8,
+    proto3_optional: true,
+    type: :int32,
+    json_name: "transactionDurationThreshold",
+    deprecated: false
+end
+
+defmodule Google.Cloud.Sql.V1.ConnectionPoolFlags do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :name, 1, type: :string, deprecated: false
+  field :value, 2, type: :string, deprecated: false
+end
+
+defmodule Google.Cloud.Sql.V1.ConnectionPoolConfig do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :connection_pooling_enabled, 1,
+    proto3_optional: true,
+    type: :bool,
+    json_name: "connectionPoolingEnabled"
+
+  field :flags, 8,
+    repeated: true,
+    type: Google.Cloud.Sql.V1.ConnectionPoolFlags,
+    deprecated: false
+
+  field :pooler_count, 9,
+    proto3_optional: true,
+    type: :int32,
+    json_name: "poolerCount",
+    deprecated: false
+end
+
+defmodule Google.Cloud.Sql.V1.ReadPoolAutoScaleConfig.TargetMetric do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :metric, 1, proto3_optional: true, type: :string
+  field :target_value, 2, proto3_optional: true, type: :float, json_name: "targetValue"
+end
+
+defmodule Google.Cloud.Sql.V1.ReadPoolAutoScaleConfig do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :enabled, 1, proto3_optional: true, type: :bool
+  field :min_node_count, 2, proto3_optional: true, type: :int32, json_name: "minNodeCount"
+  field :max_node_count, 3, proto3_optional: true, type: :int32, json_name: "maxNodeCount"
+
+  field :target_metrics, 4,
+    repeated: true,
+    type: Google.Cloud.Sql.V1.ReadPoolAutoScaleConfig.TargetMetric,
+    json_name: "targetMetrics",
+    deprecated: false
+
+  field :disable_scale_in, 5, proto3_optional: true, type: :bool, json_name: "disableScaleIn"
+
+  field :scale_in_cooldown_seconds, 6,
+    proto3_optional: true,
+    type: :int32,
+    json_name: "scaleInCooldownSeconds"
+
+  field :scale_out_cooldown_seconds, 7,
+    proto3_optional: true,
+    type: :int32,
+    json_name: "scaleOutCooldownSeconds"
 end
 
 defmodule Google.Cloud.Sql.V1.AdvancedMachineFeatures do
@@ -1111,6 +1562,20 @@ defmodule Google.Cloud.Sql.V1.SqlActiveDirectoryConfig do
 
   field :kind, 1, type: :string
   field :domain, 2, type: :string
+
+  field :mode, 3,
+    type: Google.Cloud.Sql.V1.SqlActiveDirectoryConfig.ActiveDirectoryMode,
+    enum: true,
+    deprecated: false
+
+  field :dns_servers, 4, repeated: true, type: :string, json_name: "dnsServers", deprecated: false
+
+  field :admin_credential_secret_name, 5,
+    type: :string,
+    json_name: "adminCredentialSecretName",
+    deprecated: false
+
+  field :organizational_unit, 6, type: :string, json_name: "organizationalUnit", deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.SqlServerAuditConfig do
@@ -1124,6 +1589,16 @@ defmodule Google.Cloud.Sql.V1.SqlServerAuditConfig do
   field :upload_interval, 4, type: Google.Protobuf.Duration, json_name: "uploadInterval"
 end
 
+defmodule Google.Cloud.Sql.V1.SqlServerEntraIdConfig do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :kind, 1, type: :string, deprecated: false
+  field :tenant_id, 2, type: :string, json_name: "tenantId", deprecated: false
+  field :application_id, 3, type: :string, json_name: "applicationId", deprecated: false
+end
+
 defmodule Google.Cloud.Sql.V1.AcquireSsrsLeaseContext do
   @moduledoc false
 
@@ -1133,4 +1608,24 @@ defmodule Google.Cloud.Sql.V1.AcquireSsrsLeaseContext do
   field :service_login, 2, proto3_optional: true, type: :string, json_name: "serviceLogin"
   field :report_database, 3, proto3_optional: true, type: :string, json_name: "reportDatabase"
   field :duration, 4, proto3_optional: true, type: Google.Protobuf.Duration
+end
+
+defmodule Google.Cloud.Sql.V1.DnsNameMapping do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :name, 1, type: :string
+
+  field :connection_type, 2,
+    type: Google.Cloud.Sql.V1.DnsNameMapping.ConnectionType,
+    json_name: "connectionType",
+    enum: true,
+    deprecated: false
+
+  field :dns_scope, 3,
+    type: Google.Cloud.Sql.V1.DnsNameMapping.DnsScope,
+    json_name: "dnsScope",
+    enum: true,
+    deprecated: false
 end

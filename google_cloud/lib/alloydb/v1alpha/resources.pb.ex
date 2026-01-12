@@ -29,6 +29,7 @@ defmodule Google.Cloud.Alloydb.V1alpha.DatabaseVersion do
   field :POSTGRES_15, 3
   field :POSTGRES_16, 4
   field :POSTGRES_17, 5
+  field :POSTGRES_18, 6
 end
 
 defmodule Google.Cloud.Alloydb.V1alpha.SubscriptionType do

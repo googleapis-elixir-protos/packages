@@ -218,6 +218,35 @@ defmodule Google.Cloud.Aiplatform.V1beta1.FunctionCall do
   field :id, 3, type: :string, deprecated: false
   field :name, 1, type: :string, deprecated: false
   field :args, 2, type: Google.Protobuf.Struct, deprecated: false
+
+  field :partial_args, 4,
+    repeated: true,
+    type: Google.Cloud.Aiplatform.V1beta1.PartialArg,
+    json_name: "partialArgs",
+    deprecated: false
+
+  field :will_continue, 5, type: :bool, json_name: "willContinue", deprecated: false
+end
+
+defmodule Google.Cloud.Aiplatform.V1beta1.PartialArg do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  oneof :delta, 0
+
+  field :null_value, 2,
+    type: Google.Protobuf.NullValue,
+    json_name: "nullValue",
+    enum: true,
+    oneof: 0,
+    deprecated: false
+
+  field :number_value, 3, type: :double, json_name: "numberValue", oneof: 0, deprecated: false
+  field :string_value, 4, type: :string, json_name: "stringValue", oneof: 0, deprecated: false
+  field :bool_value, 5, type: :bool, json_name: "boolValue", oneof: 0, deprecated: false
+  field :json_path, 1, type: :string, json_name: "jsonPath", deprecated: false
+  field :will_continue, 6, type: :bool, json_name: "willContinue", deprecated: false
 end
 
 defmodule Google.Cloud.Aiplatform.V1beta1.FunctionResponsePart do
@@ -472,6 +501,11 @@ defmodule Google.Cloud.Aiplatform.V1beta1.FunctionCallingConfig do
     repeated: true,
     type: :string,
     json_name: "allowedFunctionNames",
+    deprecated: false
+
+  field :stream_function_call_arguments, 4,
+    type: :bool,
+    json_name: "streamFunctionCallArguments",
     deprecated: false
 end
 
