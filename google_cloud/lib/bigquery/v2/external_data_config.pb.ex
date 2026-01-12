@@ -104,6 +104,15 @@ defmodule Google.Cloud.Bigquery.V2.JsonOptions do
   field :encoding, 1, type: :string, deprecated: false
 end
 
+defmodule Google.Cloud.Bigquery.V2.BigtableProtoConfig do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :schema_bundle_id, 3, type: :string, json_name: "schemaBundleId", deprecated: false
+  field :proto_message_name, 2, type: :string, json_name: "protoMessageName", deprecated: false
+end
+
 defmodule Google.Cloud.Bigquery.V2.BigtableColumn do
   @moduledoc false
 
@@ -118,6 +127,11 @@ defmodule Google.Cloud.Bigquery.V2.BigtableColumn do
   field :only_read_latest, 6,
     type: Google.Protobuf.BoolValue,
     json_name: "onlyReadLatest",
+    deprecated: false
+
+  field :proto_config, 7,
+    type: Google.Cloud.Bigquery.V2.BigtableProtoConfig,
+    json_name: "protoConfig",
     deprecated: false
 end
 
@@ -138,6 +152,11 @@ defmodule Google.Cloud.Bigquery.V2.BigtableColumnFamily do
   field :only_read_latest, 5,
     type: Google.Protobuf.BoolValue,
     json_name: "onlyReadLatest",
+    deprecated: false
+
+  field :proto_config, 7,
+    type: Google.Cloud.Bigquery.V2.BigtableProtoConfig,
+    json_name: "protoConfig",
     deprecated: false
 end
 

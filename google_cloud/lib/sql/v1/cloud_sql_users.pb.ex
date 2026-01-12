@@ -9,6 +9,7 @@ defmodule Google.Cloud.Sql.V1.User.SqlUserType do
   field :CLOUD_IAM_GROUP, 3
   field :CLOUD_IAM_GROUP_USER, 4
   field :CLOUD_IAM_GROUP_SERVICE_ACCOUNT, 5
+  field :ENTRAID_USER, 7
 end
 
 defmodule Google.Cloud.Sql.V1.User.DualPasswordType do
@@ -20,6 +21,16 @@ defmodule Google.Cloud.Sql.V1.User.DualPasswordType do
   field :NO_MODIFY_DUAL_PASSWORD, 1
   field :NO_DUAL_PASSWORD, 2
   field :DUAL_PASSWORD, 3
+end
+
+defmodule Google.Cloud.Sql.V1.User.IamStatus do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :IAM_STATUS_UNSPECIFIED, 0
+  field :INACTIVE, 1
+  field :ACTIVE, 2
 end
 
 defmodule Google.Cloud.Sql.V1.SqlUsersDeleteRequest do
@@ -72,6 +83,13 @@ defmodule Google.Cloud.Sql.V1.SqlUsersUpdateRequest do
   field :instance, 2, type: :string
   field :name, 3, type: :string
   field :project, 4, type: :string
+
+  field :database_roles, 5,
+    repeated: true,
+    type: :string,
+    json_name: "databaseRoles",
+    deprecated: false
+
   field :body, 100, type: Google.Cloud.Sql.V1.User
 end
 
@@ -124,6 +142,8 @@ defmodule Google.Cloud.Sql.V1.User do
     json_name: "sqlserverUserDetails",
     oneof: 0
 
+  field :iam_email, 11, type: :string, json_name: "iamEmail", deprecated: false
+
   field :password_policy, 12,
     type: Google.Cloud.Sql.V1.UserPasswordValidationPolicy,
     json_name: "passwordPolicy"
@@ -133,6 +153,18 @@ defmodule Google.Cloud.Sql.V1.User do
     type: Google.Cloud.Sql.V1.User.DualPasswordType,
     json_name: "dualPasswordType",
     enum: true
+
+  field :iam_status, 14,
+    proto3_optional: true,
+    type: Google.Cloud.Sql.V1.User.IamStatus,
+    json_name: "iamStatus",
+    enum: true
+
+  field :database_roles, 15,
+    repeated: true,
+    type: :string,
+    json_name: "databaseRoles",
+    deprecated: false
 end
 
 defmodule Google.Cloud.Sql.V1.SqlServerUserDetails do

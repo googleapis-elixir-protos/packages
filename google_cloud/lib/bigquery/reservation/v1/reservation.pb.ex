@@ -523,7 +523,7 @@ defmodule Google.Cloud.Bigquery.Reservation.V1.Assignment do
   field :enable_gemini_in_bigquery, 10,
     type: :bool,
     json_name: "enableGeminiInBigquery",
-    deprecated: false
+    deprecated: true
 
   field :scheduling_policy, 11,
     type: Google.Cloud.Bigquery.Reservation.V1.SchedulingPolicy,

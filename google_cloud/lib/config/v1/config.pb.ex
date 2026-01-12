@@ -35,6 +35,7 @@ defmodule Google.Cloud.Config.V1.Deployment.ErrorCode do
   field :DELETE_BUILD_RUN_FAILED, 6
   field :BUCKET_CREATION_PERMISSION_DENIED, 7
   field :BUCKET_CREATION_FAILED, 8
+  field :EXTERNAL_VALUE_SOURCE_IMPORT_FAILED, 10
 end
 
 defmodule Google.Cloud.Config.V1.Deployment.LockState do
@@ -93,6 +94,7 @@ defmodule Google.Cloud.Config.V1.Revision.ErrorCode do
   field :APPLY_BUILD_API_FAILED, 4
   field :APPLY_BUILD_RUN_FAILED, 5
   field :QUOTA_VALIDATION_FAILED, 7
+  field :EXTERNAL_VALUE_SOURCE_IMPORT_FAILED, 8
 end
 
 defmodule Google.Cloud.Config.V1.DeploymentOperationMetadata.DeploymentStep do
@@ -177,6 +179,7 @@ defmodule Google.Cloud.Config.V1.Preview.ErrorCode do
   field :DEPLOYMENT_LOCK_ACQUIRE_FAILED, 4
   field :PREVIEW_BUILD_API_FAILED, 5
   field :PREVIEW_BUILD_RUN_FAILED, 6
+  field :EXTERNAL_VALUE_SOURCE_IMPORT_FAILED, 7
 end
 
 defmodule Google.Cloud.Config.V1.PreviewOperationMetadata.PreviewStep do
@@ -1312,6 +1315,48 @@ defmodule Google.Cloud.Config.V1.ProviderConfig do
     deprecated: false
 end
 
+defmodule Google.Cloud.Config.V1.GetAutoMigrationConfigRequest do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :name, 1, type: :string, deprecated: false
+end
+
+defmodule Google.Cloud.Config.V1.AutoMigrationConfig do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :name, 1, type: :string, deprecated: false
+
+  field :update_time, 2,
+    type: Google.Protobuf.Timestamp,
+    json_name: "updateTime",
+    deprecated: false
+
+  field :auto_migration_enabled, 3,
+    type: :bool,
+    json_name: "autoMigrationEnabled",
+    deprecated: false
+end
+
+defmodule Google.Cloud.Config.V1.UpdateAutoMigrationConfigRequest do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :update_mask, 1,
+    type: Google.Protobuf.FieldMask,
+    json_name: "updateMask",
+    deprecated: false
+
+  field :auto_migration_config, 2,
+    type: Google.Cloud.Config.V1.AutoMigrationConfig,
+    json_name: "autoMigrationConfig",
+    deprecated: false
+end
+
 defmodule Google.Cloud.Config.V1.Config.Service do
   @moduledoc false
 
@@ -1410,6 +1455,14 @@ defmodule Google.Cloud.Config.V1.Config.Service do
   rpc :GetResourceDrift,
       Google.Cloud.Config.V1.GetResourceDriftRequest,
       Google.Cloud.Config.V1.ResourceDrift
+
+  rpc :GetAutoMigrationConfig,
+      Google.Cloud.Config.V1.GetAutoMigrationConfigRequest,
+      Google.Cloud.Config.V1.AutoMigrationConfig
+
+  rpc :UpdateAutoMigrationConfig,
+      Google.Cloud.Config.V1.UpdateAutoMigrationConfigRequest,
+      Google.Longrunning.Operation
 end
 
 defmodule Google.Cloud.Config.V1.Config.Stub do

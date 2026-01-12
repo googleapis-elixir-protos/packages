@@ -351,6 +351,8 @@ defmodule Google.Cloud.Bigquery.V2.IndexPruningStats do
     type: Google.Cloud.Bigquery.V2.TableReference,
     json_name: "baseTable"
 
+  field :index_id, 4, proto3_optional: true, type: :string, json_name: "indexId"
+
   field :pre_index_pruning_parallel_input_count, 2,
     proto3_optional: true,
     type: :int64,

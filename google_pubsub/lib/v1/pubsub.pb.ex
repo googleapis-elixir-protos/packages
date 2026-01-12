@@ -110,6 +110,7 @@ defmodule Google.Pubsub.V1.BigQueryConfig.State do
   field :NOT_FOUND, 3
   field :SCHEMA_MISMATCH, 4
   field :IN_TRANSIT_LOCATION_RESTRICTION, 5
+  field :VERTEX_AI_LOCATION_RESTRICTION, 6
 end
 
 defmodule Google.Pubsub.V1.CloudStorageConfig.State do
@@ -123,6 +124,7 @@ defmodule Google.Pubsub.V1.CloudStorageConfig.State do
   field :NOT_FOUND, 3
   field :IN_TRANSIT_LOCATION_RESTRICTION, 4
   field :SCHEMA_MISMATCH, 5
+  field :VERTEX_AI_LOCATION_RESTRICTION, 6
 end
 
 defmodule Google.Pubsub.V1.MessageStoragePolicy do
@@ -565,6 +567,35 @@ defmodule Google.Pubsub.V1.JavaScriptUDF do
   field :code, 2, type: :string, deprecated: false
 end
 
+defmodule Google.Pubsub.V1.AIInference.UnstructuredInference do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  field :parameters, 1, type: Google.Protobuf.Struct, deprecated: false
+end
+
+defmodule Google.Pubsub.V1.AIInference do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.15.0", syntax: :proto3
+
+  oneof :inference_mode, 0
+
+  field :endpoint, 1, type: :string, deprecated: false
+
+  field :unstructured_inference, 2,
+    type: Google.Pubsub.V1.AIInference.UnstructuredInference,
+    json_name: "unstructuredInference",
+    oneof: 0,
+    deprecated: false
+
+  field :service_account_email, 3,
+    type: :string,
+    json_name: "serviceAccountEmail",
+    deprecated: false
+end
+
 defmodule Google.Pubsub.V1.MessageTransform do
   @moduledoc false
 
@@ -575,6 +606,12 @@ defmodule Google.Pubsub.V1.MessageTransform do
   field :javascript_udf, 2,
     type: Google.Pubsub.V1.JavaScriptUDF,
     json_name: "javascriptUdf",
+    oneof: 0,
+    deprecated: false
+
+  field :ai_inference, 6,
+    type: Google.Pubsub.V1.AIInference,
+    json_name: "aiInference",
     oneof: 0,
     deprecated: false
 

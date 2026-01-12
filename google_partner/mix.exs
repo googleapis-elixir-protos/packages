@@ -6,7 +6,9 @@ defmodule Google.Partner.MixProject do
      app: :google_partner,
      version: "0.1.0",
      elixir: "~> 1.19.1",
-     deps: [{:protobuf, "~> 0.15.0"} ]
+     deps: [
+       {:protobuf, "~> 0.15.0"},
+       {:grpc, "~> 0.11.0"} ]
    ]
   end
 end
